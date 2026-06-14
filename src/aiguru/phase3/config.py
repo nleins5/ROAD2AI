@@ -15,7 +15,7 @@ class GenerationConfig:
     max_seq_length: int = int(os.getenv("AIGURU_MAX_SEQ_LENGTH", "8192"))
     max_new_tokens: int = int(os.getenv("AIGURU_MAX_NEW_TOKENS", "1024"))
     max_context_chars: int = int(os.getenv("AIGURU_MAX_CONTEXT_CHARS", "6000"))
-    batch_size: int = int(os.getenv("AIGURU_GENERATION_BATCH_SIZE", "12"))
+    batch_size: int = int(os.getenv("AIGURU_GENERATION_BATCH_SIZE", "1"))
     temperature: float = float(os.getenv("AIGURU_TEMPERATURE", "0.0"))
     top_p: float = float(os.getenv("AIGURU_TOP_P", "0.9"))
     repetition_penalty: float = float(os.getenv("AIGURU_REPETITION_PENALTY", "1.1"))
