@@ -220,7 +220,7 @@ class UnslothGenerator:
                     print(f"❌ Ollama API call failed: {e}")
                     return "Lỗi: Không thể kết nối local Ollama API."
 
-            max_workers = 3
+            max_workers = 4
             with ThreadPoolExecutor(max_workers=max_workers) as executor:
                 answers = list(executor.map(call_ollama, zip(questions, contexts)))
             return answers
