@@ -211,16 +211,23 @@ class UnslothGenerator:
                     headers={"Content-Type": "application/json"},
                     method="POST"
                 )
-                try:
-                    with urllib.request.urlopen(req, timeout=120.0) as response:
-                        res_data = json.loads(response.read().decode("utf-8"))
-                        answer = res_data["message"]["content"]
-                        return answer.strip()
-                except Exception as e:
-                    print(f"❌ Ollama API call failed: {e}")
-                    return "Lỗi: Không thể kết nối local Ollama API."
+                import time
+                max_retries = 3
+                for attempt in range(max_retries):
+                    try:
+                        with urllib.request.urlopen(req, timeout=120.0) as response:
+                            res_data = json.loads(response.read().decode("utf-8"))
+                            answer = res_data["message"]["content"]
+                            return answer.strip()
+                    except Exception as e:
+                        print(f"⚠️ Ollama API call failed (attempt {attempt+1}/{max_retries}): {e}")
+                        if attempt < max_retries - 1:
+                            time.sleep(2.0 * (attempt + 1))
+                        else:
+                            print(f"❌ Ollama API call permanently failed: {e}")
+                            return "Lỗi: Không thể kết nối local Ollama API."
 
-            max_workers = 4
+            max_workers = max(1, self.config.batch_size)
             with ThreadPoolExecutor(max_workers=max_workers) as executor:
                 answers = list(executor.map(call_ollama, zip(questions, contexts)))
             return answers

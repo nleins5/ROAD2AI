@@ -64,11 +64,11 @@ def validate_results(
             parts = str(article).split("|")
             if not ARTICLE_FORMAT.match(str(article)) or not is_submission_doc_id(parts[0]):
                 errors.append(f"{prefix}: invalid relevant_article {article!r}")
-        answer_articles = set(extract_article_numbers(result["answer"]))
+        answer_articles = {a.upper() for a in extract_article_numbers(result["answer"])}
         missing_answer_articles = sorted({
             str(article).split("|")[-1]
             for article in result["relevant_articles"]
-            if str(article).split("|")[-1] not in answer_articles
+            if str(article).split("|")[-1].upper() not in answer_articles
         })
         if missing_answer_articles:
             errors.append(
