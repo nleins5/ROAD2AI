@@ -12,8 +12,16 @@ sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 from aiguru.paths import DATA_DIR, KNOWLEDGE_DIR, OUTPUT_DIR
 from aiguru.phase2.cache import RetrievalCache
-from aiguru.phase3.generator import normalize_retrieval_results
-from aiguru.phase4.postprocess import PostProcessConfig, PostProcessor
+# Add scripts directory to path to import standalone modules
+SCRIPTS_DIR = Path(__file__).resolve().parents[1] / "scripts"
+if str(SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPTS_DIR))
+
+from run_phase3_4 import (
+    normalize_retrieval_results,
+    PostProcessConfig,
+    PostProcessor,
+)
 from aiguru.submission import validate_and_package
 
 

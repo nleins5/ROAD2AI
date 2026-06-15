@@ -5,9 +5,23 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from aiguru.phase3.generator import RetrievedChunk, format_legal_context, normalize_retrieval_results
-from aiguru.phase4.postprocess import PostProcessConfig, PostProcessor, extract_article_numbers
-from aiguru.phase4.streaming import JsonlResultStore
+import sys
+from pathlib import Path
+
+# Add scripts directory to path to import standalone modules
+SCRIPTS_DIR = Path(__file__).resolve().parents[1] / "scripts"
+if str(SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPTS_DIR))
+
+from run_phase3_4 import (
+    RetrievedChunk,
+    format_legal_context,
+    normalize_retrieval_results,
+    PostProcessConfig,
+    PostProcessor,
+    extract_article_numbers,
+    JsonlResultStore,
+)
 
 
 def chunk(article: str, score: float = 0.8, doc_id: str = "04/2017/QH14") -> RetrievedChunk:
